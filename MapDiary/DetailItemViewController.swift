@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SQLite3
 
 class DetailItemViewController: UIViewController {
 
@@ -18,7 +19,7 @@ class DetailItemViewController: UIViewController {
     @IBAction func close(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
+ 
     /*
     // MARK: - Navigation
 
@@ -30,3 +31,4 @@ class DetailItemViewController: UIViewController {
     */
 
 }
+

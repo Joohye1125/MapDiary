@@ -22,8 +22,17 @@ class MapViewController: UIViewController {
         let marker = NMFMarker()
         marker.position = NMGLatLng(lat: 37.5670135, lng: 126.9783740)
         marker.mapView = mapView
+        marker.iconImage = NMFOverlayImage(image: UIImage(named: "Test")!.resize(newWidth: 50))
         marker.userInfo = ["location" : "서울특별시청"]
         marker.touchHandler = markerTouchHandler
+        
+        let marker2 = NMFMarker()
+        marker2.position = NMGLatLng(lat: 37.5670135, lng: 127.9783740)
+        marker2.mapView = mapView
+        
+        marker2.iconImage = NMFOverlayImage(image: UIImage(named: "Test")!.resize(newWidth: 50))
+        marker2.userInfo = ["location" : "서울특별시청1"]
+        marker2.touchHandler = markerTouchHandler
     }
     
     private func setMarkerTouchHandler() {
