@@ -14,46 +14,75 @@ class MapViewController: UIViewController {
     
     var markerTouchHandler: NMFOverlayTouchHandler = { (overlay) -> Bool in return false}
     
+    let viewModel = MapViewModel()
+    
+    var mapItems: [NMFMarker] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setMarkerTouchHandler()
         
-        let marker = NMFMarker()
-        marker.position = NMGLatLng(lat: 37.5670135, lng: 126.9783740)
-        marker.mapView = mapView
-        marker.iconImage = NMFOverlayImage(image: UIImage(named: "Test")!.resize(newWidth: 50))
-        marker.userInfo = ["location" : "서울특별시청"]
-        marker.touchHandler = markerTouchHandler
+        mapView.clearsContextBeforeDrawing = true
+        mapView.liteModeEnabled = true
+        mapView.minZoomLevel = 5
+        mapView.maxZoomLevel = 13
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        let marker2 = NMFMarker()
-        marker2.position = NMGLatLng(lat: 37.5670135, lng: 127.9783740)
-        marker2.mapView = mapView
+        mapView.zoomLevel = 6
+        buildItems()
+    }
+    
+    private func buildItems() {
+        mapItems.removeAll()
+    
+        let diaryItems = viewModel.diaryItems
         
-        marker2.iconImage = NMFOverlayImage(image: UIImage(named: "Test")!.resize(newWidth: 50))
-        marker2.userInfo = ["location" : "서울특별시청1"]
-        marker2.touchHandler = markerTouchHandler
+        for item in diaryItems {
+            let mapItem = NMFMarker()
+            guard let latitude = item.imgMetadata.location?.latitude, let longitude = item.imgMetadata.location?.longitude else { continue }
+            mapItem.position = NMGLatLng(lat: latitude, lng: longitude)
+            mapItem.mapView = mapView
+            mapItem.iconImage = NMFOverlayImage(image: item.image.resize(newWidth: 50))
+            mapItem.userInfo = ["mapItem" : item]
+            mapItem.touchHandler = markerTouchHandler
+            mapItems.append(mapItem)
+        }
     }
     
     private func setMarkerTouchHandler() {
-        markerTouchHandler = { (overlay) -> Bool in
+        markerTouchHandler = { (marker) -> Bool in
             let mainStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
             guard let detailVC = mainStoryboard.instantiateViewController(identifier: "DetailItemViewController") as? DetailItemViewController else { return false }
-            self.present(detailVC, animated: true, completion: nil)
-            
+            detailVC.diaryItem = marker.userInfo["mapItem"] as! DiaryItem
+            self.navigationController?.pushViewController(detailVC, animated: true)
             return true
         }
     }
     
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+class MapViewModel {
+    
+    private let manager = DiaryListManager.shared
+    
+    var diaryItems: [DiaryItem] {
+        return manager.diaryItems
     }
-    */
-
+    
+    var sortedList: [DiaryItem] {
+        let sortedList = manager.diaryItems.sorted { prev, next  in
+            return prev.date > next.date
+        }
+        
+        return sortedList
+    }
+   
+    func diaryItem(at index: Int) -> DiaryItem {
+        return sortedList[index]
+    }
+   
 }

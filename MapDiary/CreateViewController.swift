@@ -6,17 +6,18 @@
 //
 
 import UIKit
+import Photos
 
-class CreateViewController: UIViewController {
+class CreateViewController: UIViewController, UINavigationControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var titleTextField: UITextField!
     
-    let textViewPlaceHolder = "내용을 입력헤주세요"
+    var imageMetadata = ImageMetadata()
     
+    let textViewPlaceHolder = "내용을 입력해주세요"
     let viewModel = CreateViewModel()
-    
     let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
@@ -46,27 +47,21 @@ class CreateViewController: UIViewController {
         guard let image = imageView.image else {return}
         guard let title = titleTextField.text else {return}
         guard let contents = textView.text else {return}
+        guard let _ = imageMetadata.location else {
+            let alertController = UIAlertController(title: "사진에서 위치 정보를 가져올 수 없습니다.", message: "", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alertController, animated: false, completion: nil)
+            return
+        }
         
-        let item = DiaryListManager.shared.createItem(image: image, title: title, contents: contents)
+        let item = DiaryListManager.shared.createItem(image: image, title: title, contents: contents, metadata: imageMetadata)
         viewModel.add(item)
         
         self.navigationController?.popViewController(animated: true)
     }
-
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
-extension CreateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension CreateViewController: UIImagePickerControllerDelegate, URLSessionDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -76,8 +71,20 @@ extension CreateViewController: UIImagePickerControllerDelegate, UINavigationCon
             newImage = possibleImage // 원본 이미지가 있을 경우
         }
         
-        self.imageView.image = newImage // 받아온 이미지를 update
-        picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
+        DispatchQueue.main.async {
+            self.imageView.image = newImage // 받아온 이미지를 update
+            picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
+            
+            guard let asset = info[.phAsset] as? PHAsset else { return }
+            
+            self.imageMetadata.imageDateTime = asset.creationDate ?? nil
+            
+            guard let latitude = asset.location?.coordinate.latitude, let longitude = asset.location?.coordinate.longitude else {return}
+            
+            self.imageMetadata.location = GPS(latitude: latitude, longitude: longitude)
+        }
+        
+       
     }
 }
 

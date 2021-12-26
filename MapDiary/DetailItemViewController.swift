@@ -10,25 +10,38 @@ import SQLite3
 
 class DetailItemViewController: UIViewController {
 
+
+    @IBOutlet var naviItem: UINavigationItem!
+    @IBOutlet weak var contents: UITextView!
+    @IBOutlet weak var image: UIImageView!
+    @IBOutlet var titleLabel: UILabel!
+    
+    var diaryItem: DiaryItem?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func close(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let item = diaryItem else {return}
+        
+        self.image.image = item.image
+        self.contents.text = item.contents
+        self.naviItem.title = item.date.toString(dateFormat: "yyyy-MM-dd")
+        self.titleLabel.text = item.title
     }
- 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "DetailItemUpdateSegue" {
+            let vc = segue.destination as! DetailItemUpdateViewController
+            vc.diaryItem = diaryItem
+        }
     }
-    */
+    
 
 }
 
