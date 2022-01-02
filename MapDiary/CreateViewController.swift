@@ -14,28 +14,37 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var titleTextField: UITextField!
     
-    var imageMetadata = ImageMetadata()
+    var imageMetadata = ImageMetadata(location: GPS(latitude: -190, longitude: -190))
     
     let textViewPlaceHolder = "내용을 입력해주세요"
     let viewModel = CreateViewModel()
     let imagePicker = UIImagePickerController()
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.layer.borderColor = UIColor.red.cgColor
-        
         initImagePicker()
         placeholderSetting()
+        checkPhotoLibraryAuth()
         
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPhotoLibrary)))
-        
     }
     
     private func initImagePicker() {
         self.imagePicker.sourceType = .photoLibrary // 앨범에서 가져옴
         self.imagePicker.allowsEditing = false // 수정 가능 여부
         self.imagePicker.delegate = self // picker delegate
+    }
+    
+    private func checkPhotoLibraryAuth() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status != .authorized {
+            PHPhotoLibrary.requestAuthorization { (status) in
+                if status != .authorized {
+                    print("authorisation not granted!")
+                }
+            }
+        }
     }
     
     @objc private func showPhotoLibrary() {
@@ -47,12 +56,6 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
         guard let image = imageView.image else {return}
         guard let title = titleTextField.text else {return}
         guard let contents = textView.text else {return}
-        guard let _ = imageMetadata.location else {
-            let alertController = UIAlertController(title: "사진에서 위치 정보를 가져올 수 없습니다.", message: "", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            present(alertController, animated: false, completion: nil)
-            return
-        }
         
         let item = DiaryListManager.shared.createItem(image: image, title: title, contents: contents, metadata: imageMetadata)
         viewModel.add(item)
@@ -72,19 +75,24 @@ extension CreateViewController: UIImagePickerControllerDelegate, URLSessionDeleg
         }
         
         DispatchQueue.main.async {
-            self.imageView.image = newImage // 받아온 이미지를 update
-            picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
-            
             guard let asset = info[.phAsset] as? PHAsset else { return }
             
             self.imageMetadata.imageDateTime = asset.creationDate ?? nil
             
-            guard let latitude = asset.location?.coordinate.latitude, let longitude = asset.location?.coordinate.longitude else {return}
+            guard let latitude = asset.location?.coordinate.latitude,
+                    let longitude = asset.location?.coordinate.longitude else {
+                        let alertController = UIAlertController(title: "사진에서 위치 정보를 가져올 수 없습니다.", message: "", preferredStyle: .alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                        self.present(alertController, animated: false, completion: nil)
+                        return
+                    }
             
             self.imageMetadata.location = GPS(latitude: latitude, longitude: longitude)
+            
+            self.imageView.image = newImage // 받아온 이미지를 update
+            picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
         }
         
-       
     }
 }
 

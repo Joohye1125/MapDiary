@@ -15,9 +15,9 @@ class DetailItemUpdateViewController: UIViewController, UINavigationControllerDe
     @IBOutlet weak var imageView: UIImageView!
   
     var diaryItem: DiaryItem?
+    var imageMetadata = ImageMetadata(location: GPS(latitude: -190, longitude: -190))
     
     let imagePicker = UIImagePickerController()
-    
     let viewModel = DetailItemUpdateViewModel()
     
     override func viewDidLoad() {
@@ -53,6 +53,7 @@ class DetailItemUpdateViewController: UIViewController, UINavigationControllerDe
         item.image = imageView.image!
         item.title = titleField.text!
         item.contents = contentsView.text
+        item.imgMetadata = imageMetadata
         
         viewModel.update(item: item)
         
@@ -71,12 +72,24 @@ extension DetailItemUpdateViewController : UIImagePickerControllerDelegate {
             newImage = possibleImage // 원본 이미지가 있을 경우
         }
         
-        guard let asset = info[.phAsset] as? PHAsset else { return }
-        print("latitude:\(asset.location?.coordinate.latitude)")
-        print("longitude:\(asset.location?.coordinate.longitude)")
-        
-        self.imageView.image = newImage // 받아온 이미지를 update
-        picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
+        DispatchQueue.main.async {
+            guard let asset = info[.phAsset] as? PHAsset else { return }
+            
+            self.imageMetadata.imageDateTime = asset.creationDate ?? nil
+            
+            guard let latitude = asset.location?.coordinate.latitude,
+                    let longitude = asset.location?.coordinate.longitude else {
+                        let alertController = UIAlertController(title: "사진에서 위치 정보를 가져올 수 없습니다.", message: "", preferredStyle: .alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                        self.present(alertController, animated: false, completion: nil)
+                        return
+                    }
+            
+            self.imageMetadata.location = GPS(latitude: latitude, longitude: longitude)
+            
+            self.imageView.image = newImage // 받아온 이미지를 update
+            picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
+        }
     }
 }
 

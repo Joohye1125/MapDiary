@@ -43,8 +43,7 @@ class MapViewController: UIViewController {
         
         for item in diaryItems {
             let mapItem = NMFMarker()
-            guard let latitude = item.imgMetadata.location?.latitude, let longitude = item.imgMetadata.location?.longitude else { continue }
-            mapItem.position = NMGLatLng(lat: latitude, lng: longitude)
+            mapItem.position = NMGLatLng(lat: item.imgMetadata.location.latitude, lng: item.imgMetadata.location.longitude)
             mapItem.mapView = mapView
             mapItem.iconImage = NMFOverlayImage(image: item.image.resize(newWidth: 50))
             mapItem.userInfo = ["mapItem" : item]
@@ -57,7 +56,7 @@ class MapViewController: UIViewController {
         markerTouchHandler = { (marker) -> Bool in
             let mainStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
             guard let detailVC = mainStoryboard.instantiateViewController(identifier: "DetailItemViewController") as? DetailItemViewController else { return false }
-            detailVC.diaryItem = marker.userInfo["mapItem"] as! DiaryItem
+            detailVC.diaryItem = marker.userInfo["mapItem"] as? DiaryItem
             self.navigationController?.pushViewController(detailVC, animated: true)
             return true
         }

@@ -32,7 +32,7 @@ struct DiaryItem: Equatable{
 
 struct ImageMetadata {
     var imageDateTime: Date?
-    var location: GPS?
+    var location: GPS
 }
 
 struct GPS {

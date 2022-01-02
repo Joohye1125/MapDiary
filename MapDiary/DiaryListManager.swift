@@ -12,22 +12,29 @@ class DiaryListManager {
     
     static let shared = DiaryListManager()
     
-    static var lastId: Int = 0
+    private let dbManager = DbManager.shared
+    
+    var lastId: Int = 0
     
     var diaryItems: [DiaryItem] = []
     
-    func load() {
-        
+    private init() {
+        load()
+        lastId = diaryItems.last?.id ?? 0
     }
     
-    func save() {
-        
+    func load() {
+        diaryItems = dbManager.load()
+    }
+    
+    func save(item: DiaryItem) {
+        dbManager.save(item: item)
     }
     
     func add(_ item: DiaryItem) {
         diaryItems.append(item)
         print("Remaining count after add: \(diaryItems.count)")
-        save()
+        save(item: item)
     }
     
     func delete(_ item: DiaryItem) {
@@ -35,23 +42,24 @@ class DiaryListManager {
             diaryItems.remove(at: index)
         }
         
-        print("Remaining count after deleting: \(diaryItems.count)")
+        dbManager.delete(id: item.id)
         
-        save()
+        print("Remaining count after deleting: \(diaryItems.count)")
     }
     
     func update(_ item: DiaryItem) {
         guard let index = diaryItems.firstIndex(of: item) else { return }
         diaryItems[index].update(title: item.title, contents: item.contents, image: item.image, metadata: item.imgMetadata)
-        save()
+        
+        dbManager.update(item: item)
+        
     }
     
     func createItem(image: UIImage,title: String, contents: String, metadata: ImageMetadata) -> DiaryItem {
-        
         // image에서 메타데이터 파싱
         // DiaryItem 객체 생성
-        let nextId = DiaryListManager.lastId + 1
-        DiaryListManager.lastId = nextId
+        let nextId = lastId + 1
+        lastId = nextId
         
         return DiaryItem(id: nextId, title: title, date: Date.now, contents: contents, image: image, imgMetadata: metadata)
     }
