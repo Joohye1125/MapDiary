@@ -1,16 +1,20 @@
 PODS:
   - NMapsMap (3.14.0)
+  - RxSwift (6.2.0)
 
 DEPENDENCIES:
   - NMapsMap
+  - RxSwift
 
 SPEC REPOS:
   trunk:
     - NMapsMap
+    - RxSwift
 
 SPEC CHECKSUMS:
   NMapsMap: 61c2abfc409bbcdc91583ccc455a5b6f64c7414e
+  RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
 
-PODFILE CHECKSUM: 8128833c5ac91f14ff64fded7858e5108d860743
+PODFILE CHECKSUM: f2ba4c7ec375d5427b666743d82cb0e65fcb1865
 
 COCOAPODS: 1.11.2

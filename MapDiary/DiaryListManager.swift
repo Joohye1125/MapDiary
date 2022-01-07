@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class DiaryListManager {
     
@@ -16,10 +17,15 @@ class DiaryListManager {
     
     var lastId: Int = 0
     
+    var diaryItemAddSubject = PublishSubject<DiaryItem>()
+    var diaryItemRemoveSubject = PublishSubject<DiaryItem>()
+    var diaryItemUpdateSubject = PublishSubject<DiaryItem>()
+    
     var diaryItems: [DiaryItem] = []
     
     private init() {
         load()
+        
         lastId = diaryItems.last?.id ?? 0
     }
     
@@ -33,8 +39,11 @@ class DiaryListManager {
     
     func add(_ item: DiaryItem) {
         diaryItems.append(item)
+        print("Added Item Id: \(item.id)")
         print("Remaining count after add: \(diaryItems.count)")
         save(item: item)
+        
+        diaryItemAddSubject.onNext(item)
     }
     
     func delete(_ item: DiaryItem) {
@@ -42,17 +51,21 @@ class DiaryListManager {
             diaryItems.remove(at: index)
         }
         
+        print("Deleted Item Id: \(item.id)")
+        print("Remaining count after deleting: \(diaryItems.count)")
         dbManager.delete(id: item.id)
         
-        print("Remaining count after deleting: \(diaryItems.count)")
+        diaryItemRemoveSubject.onNext(item)
     }
     
     func update(_ item: DiaryItem) {
         guard let index = diaryItems.firstIndex(of: item) else { return }
         diaryItems[index].update(title: item.title, contents: item.contents, image: item.image, metadata: item.imgMetadata)
         
+        print("Updated Item Id: \(item.id)")
         dbManager.update(item: item)
         
+        diaryItemUpdateSubject.onNext(item)
     }
     
     func createItem(image: UIImage,title: String, contents: String, metadata: ImageMetadata) -> DiaryItem {
@@ -61,6 +74,7 @@ class DiaryListManager {
         let nextId = lastId + 1
         lastId = nextId
         
+        print("Created Item Id: \(lastId)")
         return DiaryItem(id: nextId, title: title, date: Date.now, contents: contents, image: image, imgMetadata: metadata)
     }
    

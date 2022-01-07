@@ -81,6 +81,8 @@ extension CreateViewController: UIImagePickerControllerDelegate, URLSessionDeleg
             
             guard let latitude = asset.location?.coordinate.latitude,
                     let longitude = asset.location?.coordinate.longitude else {
+                        picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
+                        
                         let alertController = UIAlertController(title: "사진에서 위치 정보를 가져올 수 없습니다.", message: "", preferredStyle: .alert)
                         alertController.addAction(UIAlertAction(title: "OK", style: .default))
                         self.present(alertController, animated: false, completion: nil)

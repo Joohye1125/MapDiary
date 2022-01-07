@@ -81,6 +81,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FA7413262785C608000EB20F /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				FAEEFE98276F60AB008D9FF2 /* DateExtension.swift */,
+				FAEEFE87276B6E88008D9FF2 /* UIImageExtension.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
 		FA84520827610FF100D90748 = {
 			isa = PBXGroup;
 			children = (
@@ -102,19 +111,18 @@
 		FA84521327610FF100D90748 /* MapDiary */ = {
 			isa = PBXGroup;
 			children = (
+				FA7413262785C608000EB20F /* Extentions */,
 				FAEEFE93276DA891008D9FF2 /* DB */,
 				FAEEFE8A276B7BD2008D9FF2 /* Model */,
 				FA84521427610FF100D90748 /* AppDelegate.swift */,
 				FA84521627610FF100D90748 /* SceneDelegate.swift */,
 				FA8AA1E4276501D60099AAA0 /* MapViewController.swift */,
-				FAEEFE87276B6E88008D9FF2 /* UIImageExtension.swift */,
 				FAEEFE8F276D9A95008D9FF2 /* DiaryListViewModel.swift */,
 				FAEEFE96276DB2A9008D9FF2 /* DiaryListManager.swift */,
 				FA22684B2765E3BB00E8C5DC /* DetailItemViewController.swift */,
 				FA84521A27610FF100D90748 /* Main.storyboard */,
 				FA6D070D277209E600D16336 /* DetailItemUpdateViewController.swift */,
 				FAEEFE8D276B82D7008D9FF2 /* DiaryListViewController.swift */,
-				FAEEFE98276F60AB008D9FF2 /* DateExtension.swift */,
 				FA22684D276623FA00E8C5DC /* CreateViewController.swift */,
 				FA84521D27610FF400D90748 /* Assets.xcassets */,
 				FA84521F27610FF400D90748 /* LaunchScreen.storyboard */,

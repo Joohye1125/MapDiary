@@ -7,4 +7,6 @@ target 'MapDiary' do
 
   # Pods for MapDiary
   pod 'NMapsMap'
+  pod 'RxSwift'
+  
 end

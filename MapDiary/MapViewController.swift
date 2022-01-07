@@ -7,6 +7,7 @@
 
 import UIKit
 import NMapsMap
+import RxSwift
 
 class MapViewController: UIViewController {
 
@@ -17,39 +18,75 @@ class MapViewController: UIViewController {
     let viewModel = MapViewModel()
     
     var mapItems: [NMFMarker] = []
+    var disposeBag = DisposeBag()
+    
+    let MAPITEM_KEY = "mapItem"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        DiaryListManager.shared.diaryItemAddSubject
+            .subscribe(onNext: addMapItem).disposed(by: disposeBag)
+        
+        DiaryListManager.shared.diaryItemRemoveSubject
+            .subscribe(onNext: removeMapItem).disposed(by: disposeBag)
+        
+        DiaryListManager.shared.diaryItemUpdateSubject
+            .subscribe(onNext: updateMapItem).disposed(by: disposeBag)
+
         setMarkerTouchHandler()
         
         mapView.clearsContextBeforeDrawing = true
         mapView.liteModeEnabled = true
         mapView.minZoomLevel = 5
         mapView.maxZoomLevel = 13
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         mapView.zoomLevel = 6
+        
         buildItems()
     }
     
     private func buildItems() {
-        mapItems.removeAll()
-    
         let diaryItems = viewModel.diaryItems
         
         for item in diaryItems {
-            let mapItem = NMFMarker()
-            mapItem.position = NMGLatLng(lat: item.imgMetadata.location.latitude, lng: item.imgMetadata.location.longitude)
-            mapItem.mapView = mapView
-            mapItem.iconImage = NMFOverlayImage(image: item.image.resize(newWidth: 50))
-            mapItem.userInfo = ["mapItem" : item]
-            mapItem.touchHandler = markerTouchHandler
-            mapItems.append(mapItem)
+            addMapItem(item: item)
         }
+    }
+    
+    private func addMapItem(item: DiaryItem){
+        let mapItem = NMFMarker()
+        mapItem.position = NMGLatLng(lat: item.imgMetadata.location.latitude, lng: item.imgMetadata.location.longitude)
+        mapItem.mapView = mapView
+        mapItem.iconImage = NMFOverlayImage(image: item.image.resize(newWidth: 40))
+        mapItem.userInfo = [MAPITEM_KEY : item]
+        mapItem.touchHandler = markerTouchHandler
+        mapItems.append(mapItem)
+    }
+    
+    private func removeMapItem(item: DiaryItem){
+        guard let targetItem = getMapItem(id: item.id) else { return }
+     
+        targetItem.mapView = nil
+        
+        if let index = mapItems.firstIndex(of: targetItem) {
+            mapItems.remove(at: index)
+        }
+    }
+    
+    private func updateMapItem(item: DiaryItem){
+        removeMapItem(item: item)
+        addMapItem(item: item)
+    }
+    
+    private func getMapItem(id: Int) -> NMFMarker? {
+        let targetItem = mapItems.filter{ ($0.userInfo[MAPITEM_KEY] as! DiaryItem).id == id}
+        
+        // id는 고유하므로 filteredItem의 타입은 array일지라도 1개이다.
+        if targetItem.count == 0 || targetItem.count > 1 {
+            return nil
+        }
+        
+        return targetItem[0]
     }
     
     private func setMarkerTouchHandler() {
