@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CoreLocation
 
-struct DiaryItem: Equatable{
+class DiaryItem: Equatable{
    
     let id: Int
     var title: String
@@ -18,24 +18,43 @@ struct DiaryItem: Equatable{
     var image: UIImage
     var imgMetadata: ImageMetadata
     
-    mutating func update(title: String, contents: String, image: UIImage, metadata: ImageMetadata) {
+    init(id: Int, title: String, date: Date, contents: String, image: UIImage, imgMetadata: ImageMetadata) {
+        self.id = id
+        self.title = title
+        self.date = date
+        self.contents = contents
+        self.image = image
+        self.imgMetadata = imgMetadata
+    }
+    
+    func update(title: String, contents: String, image: UIImage, metadata: ImageMetadata) {
         self.title = title
         self.contents = contents
         self.image = image
         self.imgMetadata = metadata
     }
     
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    static func == (lhs: DiaryItem, rhs: DiaryItem) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
-struct ImageMetadata {
+class ImageMetadata {
     var imageDateTime: Date?
     var location: GPS
+    
+    init(imageDate: Date?, location: GPS) {
+        self.imageDateTime = imageDate
+        self.location = location
+    }
 }
 
-struct GPS {
+class GPS {
     let latitude: Double // 위도
     let longitude: Double // 경도
+    
+    init(latitude: Double, longitude: Double){
+        self.latitude = latitude
+        self.longitude = longitude
+    }
 }

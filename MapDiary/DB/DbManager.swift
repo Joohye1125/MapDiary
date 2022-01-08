@@ -83,7 +83,7 @@ class DbManager {
                                  date: date,
                                  contents: contents,
                                  image: image,
-                                 imgMetadata: ImageMetadata(imageDateTime: imgDate, location: GPS(latitude: latitude, longitude: longitude)))
+                                 imgMetadata: ImageMetadata(imageDate: imgDate, location: GPS(latitude: latitude, longitude: longitude)))
             
             items.append(item)
         }

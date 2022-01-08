@@ -15,7 +15,7 @@ class DetailItemUpdateViewController: UIViewController, UINavigationControllerDe
     @IBOutlet weak var imageView: UIImageView!
   
     var diaryItem: DiaryItem?
-    var imageMetadata = ImageMetadata(location: GPS(latitude: -190, longitude: -190))
+    var imageMetadata = ImageMetadata(imageDate: nil, location: GPS(latitude: -190, longitude: -190))
     
     let imagePicker = UIImagePickerController()
     let viewModel = DetailItemUpdateViewModel()
@@ -48,11 +48,15 @@ class DetailItemUpdateViewController: UIViewController, UINavigationControllerDe
     }
     
     @IBAction func complete(_ sender: Any) {
-        guard var item = diaryItem else {return}
+        guard let item = diaryItem else {return}
         
-        item.image = imageView.image!
-        item.title = titleField.text!
-        item.contents = contentsView.text
+        guard let image = imageView.image?.downSample(scale: 1) else {return}
+        guard let title = titleField.text else {return}
+        guard let contents = contentsView.text else {return}
+        
+        item.image = image
+        item.title = title
+        item.contents = contents
         item.imgMetadata = imageMetadata
         
         viewModel.update(item: item)
@@ -89,7 +93,7 @@ extension DetailItemUpdateViewController : UIImagePickerControllerDelegate {
             
             self.imageMetadata.location = GPS(latitude: latitude, longitude: longitude)
             
-            self.imageView.image = newImage // 받아온 이미지를 update
+            self.imageView.image = newImage?.downSample(scale: 1) // 받아온 이미지를 update
             picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
         }
     }

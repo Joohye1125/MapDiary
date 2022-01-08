@@ -16,10 +16,11 @@ class DiaryListManager {
     private let dbManager = DbManager.shared
     
     var lastId: Int = 0
-    
+   
     var diaryItemAddSubject = PublishSubject<DiaryItem>()
     var diaryItemRemoveSubject = PublishSubject<DiaryItem>()
     var diaryItemUpdateSubject = PublishSubject<DiaryItem>()
+    var diaryItemChangedSubject = PublishSubject<Bool>()
     
     var diaryItems: [DiaryItem] = []
     
@@ -44,6 +45,7 @@ class DiaryListManager {
         save(item: item)
         
         diaryItemAddSubject.onNext(item)
+        diaryItemChangedSubject.onNext(true)
     }
     
     func delete(_ item: DiaryItem) {
@@ -66,6 +68,7 @@ class DiaryListManager {
         dbManager.update(item: item)
         
         diaryItemUpdateSubject.onNext(item)
+        diaryItemChangedSubject.onNext(true)
     }
     
     func createItem(image: UIImage,title: String, contents: String, metadata: ImageMetadata) -> DiaryItem {

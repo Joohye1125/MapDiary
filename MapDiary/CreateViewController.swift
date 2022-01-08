@@ -14,7 +14,7 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var titleTextField: UITextField!
     
-    var imageMetadata = ImageMetadata(location: GPS(latitude: -190, longitude: -190))
+    var imageMetadata = ImageMetadata(imageDate: nil, location: GPS(latitude: -190, longitude: -190))
     
     let textViewPlaceHolder = "내용을 입력해주세요"
     let viewModel = CreateViewModel()
@@ -53,7 +53,7 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBAction func complete(_ sender: Any) {
         
-        guard let image = imageView.image else {return}
+        guard let image = imageView.image?.downSample(scale: 1) else {return}
         guard let title = titleTextField.text else {return}
         guard let contents = textView.text else {return}
         
@@ -71,7 +71,7 @@ extension CreateViewController: UIImagePickerControllerDelegate, URLSessionDeleg
         var newImage: UIImage? = nil // update 할 이미지
         
         if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            newImage = possibleImage // 원본 이미지가 있을 경우
+            newImage = possibleImage.downSample(scale: 0.1) // 원본 이미지가 있을 경우
         }
         
         DispatchQueue.main.async {
@@ -80,7 +80,7 @@ extension CreateViewController: UIImagePickerControllerDelegate, URLSessionDeleg
             self.imageMetadata.imageDateTime = asset.creationDate ?? nil
             
             guard let latitude = asset.location?.coordinate.latitude,
-                    let longitude = asset.location?.coordinate.longitude else {
+                  let longitude = asset.location?.coordinate.longitude else {
                         picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
                         
                         let alertController = UIAlertController(title: "사진에서 위치 정보를 가져올 수 없습니다.", message: "", preferredStyle: .alert)

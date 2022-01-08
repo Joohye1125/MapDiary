@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class DiaryListViewController: UIViewController {
 
@@ -15,19 +16,19 @@ class DiaryListViewController: UIViewController {
     
     var items: [DiaryItem] = []
     
+    var disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         items = viewModel.diaryItems
         
-        tableView.reloadData()
+        DiaryListManager.shared.diaryItemChangedSubject
+            .subscribe(onNext: reloadData)
+            .disposed(by: disposeBag)
+
     }
-    
+   
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DetailItemSegue" {
             let vc = segue.destination as! DetailItemViewController
@@ -39,7 +40,13 @@ class DiaryListViewController: UIViewController {
             vc.diaryItem = item
         }
     }
-
+    
+    private func reloadData(reload: Bool) {
+        if (!reload) { return }
+        
+        items = viewModel.diaryItems
+        tableView.reloadData()
+    }
 }
 
 extension DiaryListViewController: UITableViewDelegate  {
@@ -53,15 +60,12 @@ extension DiaryListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DiaryItemCell", for: indexPath) as? DiaryItemCell else { return UITableViewCell()}
         
         let item = items[indexPath.row]
-        
         cell.photo.image = item.image
         cell.date.text = item.date.toString(dateFormat: "yyyy-MM-dd")
         cell.title.text = item.title
-        
         return cell
     }
     
@@ -71,7 +75,6 @@ extension DiaryListViewController: UITableViewDataSource {
             viewModel.delete(item: deleteItem)
             items = viewModel.diaryItems
             tableView.deleteRows(at: [indexPath], with: .fade)
-                   
        }
     }
 }

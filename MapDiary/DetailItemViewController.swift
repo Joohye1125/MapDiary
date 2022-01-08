@@ -24,15 +24,22 @@ class DetailItemViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        self.image.image = nil
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         guard let item = diaryItem else {return}
         
-        self.image.image = item.image
+        self.image.image = item.image.downSample(scale: 1)
         self.contents.text = item.contents
         self.naviItem.title = item.date.toString(dateFormat: "yyyy-MM-dd")
         self.titleLabel.text = item.title
+     
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
