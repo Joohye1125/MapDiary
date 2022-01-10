@@ -205,7 +205,7 @@ class DbManager {
 extension DbManager {
     
     func EncodeImageToBase64(image: UIImage) -> String {
-        let imageData = image.pngData()! as NSData
+        let imageData = image.jpegData(compressionQuality: 1)! as NSData
         let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
         
         return strBase64

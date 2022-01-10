@@ -15,6 +15,7 @@ class DetailItemViewController: UIViewController {
     @IBOutlet weak var contents: UITextView!
     @IBOutlet weak var image: UIImageView!
     @IBOutlet var titleLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     var diaryItem: DiaryItem?
     
@@ -39,6 +40,13 @@ class DetailItemViewController: UIViewController {
         self.contents.text = item.contents
         self.naviItem.title = item.date.toString(dateFormat: "yyyy-MM-dd")
         self.titleLabel.text = item.title
+        
+        guard let date = item.imgMetadata.imageDateTime else {
+            self.dateLabel.isHidden = true
+            return
+        }
+        self.dateLabel.text = date.toString(dateFormat: "yyyy-MM-dd a hh:mm")
+        self.dateLabel.isHidden = false
      
     }
     

@@ -152,7 +152,7 @@
                                                 </constraints>
                                             </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="GwM-QG-zec">
-                                                <rect key="frame" x="10" y="444" width="394" height="442"/>
+                                                <rect key="frame" x="15" y="477" width="384" height="409"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" systemColor="labelColor"/>
@@ -160,33 +160,42 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="제목" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3qx-VP-Gg4">
-                                                <rect key="frame" x="10" y="405" width="35" height="24"/>
+                                                <rect key="frame" x="15" y="438" width="35" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내용" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czs-Bz-bj6">
-                                                <rect key="frame" x="55" y="405" width="349" height="24"/>
+                                                <rect key="frame" x="60" y="438" width="339" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="날짜" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dtG-UW-h8r">
+                                                <rect key="frame" x="30" y="400" width="354" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" systemColor="systemGrayColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstItem="3qx-VP-Gg4" firstAttribute="top" secondItem="HcM-il-ijv" secondAttribute="bottom" constant="15" id="9My-xN-Dfn"/>
                                             <constraint firstItem="GwM-QG-zec" firstAttribute="top" secondItem="3qx-VP-Gg4" secondAttribute="bottom" constant="15" id="9yO-0d-jjR"/>
-                                            <constraint firstAttribute="trailing" secondItem="Czs-Bz-bj6" secondAttribute="trailing" constant="10" id="Aim-99-XpE"/>
+                                            <constraint firstAttribute="trailing" secondItem="Czs-Bz-bj6" secondAttribute="trailing" constant="15" id="Aim-99-XpE"/>
                                             <constraint firstAttribute="trailing" secondItem="HcM-il-ijv" secondAttribute="trailing" constant="10" id="D2v-Nj-kcB"/>
+                                            <constraint firstItem="dtG-UW-h8r" firstAttribute="top" secondItem="HcM-il-ijv" secondAttribute="bottom" constant="10" id="Ie7-kF-bxU"/>
+                                            <constraint firstItem="3qx-VP-Gg4" firstAttribute="top" secondItem="dtG-UW-h8r" secondAttribute="bottom" constant="20" id="RdZ-Qs-AQD"/>
                                             <constraint firstItem="HcM-il-ijv" firstAttribute="leading" secondItem="qtO-yJ-y51" secondAttribute="leading" constant="10" id="XMX-fr-DvE"/>
+                                            <constraint firstAttribute="trailing" secondItem="dtG-UW-h8r" secondAttribute="trailing" constant="30" id="Xdz-cx-rL7"/>
                                             <constraint firstItem="Czs-Bz-bj6" firstAttribute="leading" secondItem="3qx-VP-Gg4" secondAttribute="trailing" constant="10" id="aiI-J3-KRS"/>
                                             <constraint firstItem="HcM-il-ijv" firstAttribute="top" secondItem="qtO-yJ-y51" secondAttribute="top" constant="40" id="bjD-GI-3jx"/>
                                             <constraint firstItem="GwM-QG-zec" firstAttribute="top" secondItem="Czs-Bz-bj6" secondAttribute="bottom" constant="15" id="bzC-QX-ojb"/>
                                             <constraint firstAttribute="bottom" secondItem="GwM-QG-zec" secondAttribute="bottom" constant="10" id="cCk-BC-8xU"/>
-                                            <constraint firstAttribute="trailing" secondItem="GwM-QG-zec" secondAttribute="trailing" constant="10" id="dsE-xD-JHC"/>
-                                            <constraint firstItem="3qx-VP-Gg4" firstAttribute="leading" secondItem="qtO-yJ-y51" secondAttribute="leading" constant="10" id="e4O-pO-Xxu"/>
-                                            <constraint firstItem="GwM-QG-zec" firstAttribute="leading" secondItem="qtO-yJ-y51" secondAttribute="leading" constant="10" id="idl-s6-Cpd"/>
-                                            <constraint firstItem="Czs-Bz-bj6" firstAttribute="top" secondItem="HcM-il-ijv" secondAttribute="bottom" constant="15" id="kGr-vQ-93p"/>
+                                            <constraint firstAttribute="trailing" secondItem="GwM-QG-zec" secondAttribute="trailing" constant="15" id="dsE-xD-JHC"/>
+                                            <constraint firstItem="3qx-VP-Gg4" firstAttribute="leading" secondItem="qtO-yJ-y51" secondAttribute="leading" constant="15" id="e4O-pO-Xxu"/>
+                                            <constraint firstItem="Czs-Bz-bj6" firstAttribute="top" secondItem="dtG-UW-h8r" secondAttribute="bottom" constant="20" id="fcE-8m-oSp"/>
+                                            <constraint firstItem="GwM-QG-zec" firstAttribute="leading" secondItem="qtO-yJ-y51" secondAttribute="leading" constant="15" id="idl-s6-Cpd"/>
+                                            <constraint firstItem="dtG-UW-h8r" firstAttribute="leading" secondItem="qtO-yJ-y51" secondAttribute="leading" constant="30" id="r5R-PS-gN7"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -218,6 +227,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="contents" destination="GwM-QG-zec" id="2gM-DE-Jx0"/>
+                        <outlet property="dateLabel" destination="dtG-UW-h8r" id="U7y-aP-HhW"/>
                         <outlet property="image" destination="HcM-il-ijv" id="2PD-Td-1sJ"/>
                         <outlet property="naviItem" destination="IGD-wB-1Br" id="jW7-tU-BbY"/>
                         <outlet property="navigationItem" destination="IGD-wB-1Br" id="FNd-1K-z74"/>
@@ -237,6 +247,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" systemColor="systemIndigoColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="gyX-n4-onG" kind="relationship" relationship="viewControllers" id="APb-RS-HuV"/>
@@ -496,6 +507,12 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
