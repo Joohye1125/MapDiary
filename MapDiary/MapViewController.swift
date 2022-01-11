@@ -57,7 +57,7 @@ class MapViewController: UIViewController {
         let mapItem = NMFMarker()
         mapItem.position = NMGLatLng(lat: item.imgMetadata.location.latitude, lng: item.imgMetadata.location.longitude)
         mapItem.mapView = mapView
-        mapItem.iconImage = NMFOverlayImage(image: item.image.resize(newWidth: 40))
+        mapItem.iconImage = NMFOverlayImage(image: item.image.resize(newWidth: 30))
         mapItem.userInfo = [MAPITEM_KEY : item]
         mapItem.touchHandler = markerTouchHandler
         mapItems.append(mapItem)

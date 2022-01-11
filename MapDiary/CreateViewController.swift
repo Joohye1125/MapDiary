@@ -7,27 +7,35 @@
 
 import UIKit
 import Photos
+import RxCocoa
+import RxSwift
 
 class CreateViewController: UIViewController, UINavigationControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var completeButton: UIBarButtonItem!
     
     var imageMetadata = ImageMetadata(imageDate: nil, location: GPS(latitude: -190, longitude: -190))
-    
+    var isImagePicked = BehaviorSubject<Bool>(value: false)
+   
     let textViewPlaceHolder = "내용을 입력해주세요"
     let viewModel = CreateViewModel()
     let imagePicker = UIImagePickerController()
-   
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initImagePicker()
-        placeholderSetting()
-        checkPhotoLibraryAuth()
+        DispatchQueue.main.async {
+            self.initImagePicker()
+            self.placeholderSetting()
+            self.imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.showPhotoLibrary)))
+        }
         
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPhotoLibrary)))
+        checkValidation()
+        checkPhotoLibraryAuth()
     }
     
     private func initImagePicker() {
@@ -45,6 +53,20 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
                 }
             }
         }
+    }
+    
+    private func checkValidation() {
+        Observable.combineLatest(textView.rx.text.map(checkContentsValidation),
+                                 titleTextField.rx.text.orEmpty.map({t in t.isEmpty == false}),
+                                 isImagePicked, resultSelector: {r1, r2, r3 in r1 && r2 && r3})
+            .subscribe(onNext: { b in
+                self.completeButton.isEnabled = b})
+            .disposed(by: disposeBag)
+    }
+    
+    private func checkContentsValidation(_ contents: String?) -> Bool {
+        guard let text = contents else { return false }
+        return text != textViewPlaceHolder && !text.isEmpty
     }
     
     @objc private func showPhotoLibrary() {
@@ -92,6 +114,8 @@ extension CreateViewController: UIImagePickerControllerDelegate, URLSessionDeleg
             self.imageMetadata.location = GPS(latitude: latitude, longitude: longitude)
             
             self.imageView.image = newImage // 받아온 이미지를 update
+            self.isImagePicked.onNext(true)
+            
             picker.dismiss(animated: true, completion: nil) // picker를 닫아줌
         }
         
