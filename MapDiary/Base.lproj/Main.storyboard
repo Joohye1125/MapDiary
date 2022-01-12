@@ -347,6 +347,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="completeButton" destination="2hX-NX-xxu" id="YbB-fX-fad"/>
                         <outlet property="imageView" destination="rjZ-4V-qKc" id="D7Y-Y6-6Qo"/>
                         <outlet property="textView" destination="RYb-1B-c2S" id="rFF-Le-JTT"/>
                         <outlet property="titleTextField" destination="so7-Qa-JtK" id="Jgi-hQ-xa2"/>
@@ -494,7 +495,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="CT3-cU-APt"/>
+        <segue reference="a0H-7w-wPH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Camera" width="256" height="256"/>

@@ -56,6 +56,12 @@ extension DiaryListViewController: UITableViewDelegate  {
 extension DiaryListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if viewModel.numOfDiaryItems == 0 {
+            tableView.setEmptyView(title: "아직 기록된 추억이 없어요 🥺", message: "새로운 추억을 기록해주세요!")
+        }
+        else {
+            tableView.restore()
+        }
         return viewModel.numOfDiaryItems
     }
     
