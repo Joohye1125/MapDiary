@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SQLite3
+import os
 
 class DbManager {
     
@@ -34,7 +35,7 @@ class DbManager {
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("\(TABLE_NAME).sqlite")
         
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("Failed to open db")
+            os_log("Failed to open db", type: .error)
         }
         
         let CREATE_QUERY_TEXT : String = """
@@ -51,9 +52,11 @@ class DbManager {
                                         """
 
        if sqlite3_exec(db, CREATE_QUERY_TEXT, nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
+            let errmsg = "error creating table: \(String(cString: sqlite3_errmsg(db)!))"
+            os_log("%@", type: .error, errmsg)
        }
+        
+        os_log("Succeeded to create table", type: .default)
     }
     
     func load() -> [DiaryItem]{
@@ -63,8 +66,8 @@ class DbManager {
         var stmt:OpaquePointer?
         
         if sqlite3_prepare(db, SELECT_QUERY, -1, &stmt, nil) != SQLITE_OK{
-            let errMsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: v1\(errMsg)")
+            let errmsg = "error preparing insert: \(String(cString: sqlite3_errmsg(db)!))"
+            os_log("%@", type: .error, errmsg)
             return items
         }
         
@@ -87,6 +90,8 @@ class DbManager {
             
             items.append(item)
         }
+        
+        os_log("Succeeded to load data from db", type: .default)
         
         return items
     }
@@ -124,12 +129,15 @@ class DbManager {
             sqlite3_bind_double(stmt, 8, imgDate)
             
             if sqlite3_step(stmt) == SQLITE_DONE {
-                 print("\nSuccessfully inserted row.")
+                let log = "Successfully inserted row. id: \(id))"
+                os_log("%@", type: .default, log)
             } else {
-                 print("\nCould not insert row.")
+                let log = "Failed to insert row. id: \(id))"
+                os_log("%@", type: .error, log)
             }
         } else {
-            print("\nINSERT statement is not prepared.")
+            let log = "INSERT statement is not prepared. id: \(item.id))"
+            os_log("%@", type: .error, log)
       }
         
       sqlite3_finalize(stmt)
@@ -167,12 +175,15 @@ class DbManager {
             sqlite3_bind_int(stmt, 7, id)
             
             if sqlite3_step(stmt) == SQLITE_DONE {
-                 print("\nSuccessfully update row.")
+                let log = "Successfully update row. id: \(id))"
+                os_log("%@", type: .default, log)
             } else {
-                 print("\nCould not update row.")
+                let log = "Failed to update row. id: \(id))"
+                os_log("%@", type: .error, log)
             }
         } else {
-            print("\nUPDATE statement is not prepared.")
+            let log = "UPDATE statement is not prepared. id: \(item.id))"
+            os_log("%@", type: .error, log)
       }
         
       sqlite3_finalize(stmt)
@@ -190,12 +201,15 @@ class DbManager {
             sqlite3_bind_int(stmt, 1, id)
             
             if sqlite3_step(stmt) == SQLITE_DONE {
-                 print("\nSuccessfully delete row.")
+                let log = "Successfully delete row. id: \(id))"
+                os_log("%@", type: .default, log)
             } else {
-                 print("\nCould not delete row.")
+                let log = "Failed to delete row. id: \(id))"
+                os_log("%@", type: .error, log)
             }
         } else {
-            print("\n DELETE statement is not prepared.")
+            let log = "DELETE statement is not prepared. id: \(id))"
+            os_log("%@", type: .error, log)
           }
         
       sqlite3_finalize(stmt)

@@ -15,7 +15,7 @@ class DiaryListViewModel {
         return manager.diaryItems
     }
     
-    var sortedList: [DiaryItem] {
+    var sortedItems: [DiaryItem] {
         let sortedList = manager.diaryItems.sorted { prev, next  in
             return prev.date > next.date
         }
@@ -27,8 +27,9 @@ class DiaryListViewModel {
         return diaryItems.count
     }
     
-    func diaryItem(at index: Int) -> DiaryItem {
-        return sortedList[index]
+    func diaryItem(at index:
+                   Int) -> DiaryItem {
+        return sortedItems[index]
     }
     
     func add(item: DiaryItem) {

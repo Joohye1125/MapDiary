@@ -10,24 +10,25 @@ import SQLite3
 
 class DetailItemViewController: UIViewController {
 
-
     @IBOutlet var naviItem: UINavigationItem!
     @IBOutlet weak var contents: UITextView!
     @IBOutlet weak var image: UIImageView!
-    @IBOutlet var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     
     var diaryItem: DiaryItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.title = ""
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+      
         self.image.image = nil
     }
     
@@ -36,11 +37,13 @@ class DetailItemViewController: UIViewController {
         
         guard let item = diaryItem else {return}
         
-        self.image.image = item.image.downSample(scale: 1)
+        self.image.image = item.image.downSample(scale: 0.8)
         self.contents.text = item.contents
         self.naviItem.title = item.date.toString(dateFormat: "yyyy-MM-dd")
         self.titleLabel.text = item.title
         
+        self.naviItem.rightBarButtonItem?.tintColor = .black
+  
         guard let date = item.imgMetadata.imageDateTime else {
             self.dateLabel.isHidden = true
             return

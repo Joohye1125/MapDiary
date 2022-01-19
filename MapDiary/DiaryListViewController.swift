@@ -21,12 +21,18 @@ class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        items = viewModel.diaryItems
+        items = viewModel.sortedItems
         
         DiaryListManager.shared.diaryItemChangedSubject
             .subscribe(onNext: reloadData)
             .disposed(by: disposeBag)
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.title = "일기"
     }
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -37,6 +43,8 @@ class DiaryListViewController: UIViewController {
             guard let index = indexPath else {return}
             let item = items[index.row]
             
+            self.navigationController?.navigationBar.backItem?.backButtonTitle = ""
+            
             vc.diaryItem = item
         }
     }
@@ -44,7 +52,7 @@ class DiaryListViewController: UIViewController {
     private func reloadData(reload: Bool) {
         if (!reload) { return }
         
-        items = viewModel.diaryItems
+        items = viewModel.sortedItems
         tableView.reloadData()
     }
 }
@@ -79,7 +87,7 @@ extension DiaryListViewController: UITableViewDataSource {
         if editingStyle == .delete {
             let deleteItem = items[indexPath.row]
             viewModel.delete(item: deleteItem)
-            items = viewModel.diaryItems
+            items = viewModel.sortedItems
             tableView.deleteRows(at: [indexPath], with: .fade)
        }
     }

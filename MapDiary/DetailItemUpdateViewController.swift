@@ -18,7 +18,7 @@ class DetailItemUpdateViewController: UIViewController, UINavigationControllerDe
     var imageMetadata = ImageMetadata(imageDate: nil, location: GPS(latitude: -190, longitude: -190))
     
     let imagePicker = UIImagePickerController()
-    let viewModel = DetailItemUpdateViewModel()
+    let viewModel = DiaryListViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +30,16 @@ class DetailItemUpdateViewController: UIViewController, UINavigationControllerDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.navigationController?.navigationBar.topItem?.title = ""
+        self.navigationController?.navigationBar.tintColor = .black
+        self.title = "수정하기"
+        
         guard let item = diaryItem else {return}
         
         imageView.image = item.image
         titleField.text = item.title
         contentsView.text = item.contents
+        imageMetadata = item.imgMetadata
     }
     
     private func initImagePicker() {
@@ -99,11 +104,3 @@ extension DetailItemUpdateViewController : UIImagePickerControllerDelegate {
     }
 }
 
-class DetailItemUpdateViewModel {
-    
-    private let manager = DiaryListManager.shared
-    
-    func update(item: DiaryItem) {
-        manager.update(item)
-    }
-}

@@ -9,6 +9,7 @@ import UIKit
 import Photos
 import RxCocoa
 import RxSwift
+import os
 
 class CreateViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -21,7 +22,7 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
     var isImagePicked = BehaviorSubject<Bool>(value: false)
    
     let textViewPlaceHolder = "내용을 입력해주세요"
-    let viewModel = CreateViewModel()
+    let viewModel = DiaryListViewModel()
     let imagePicker = UIImagePickerController()
     let disposeBag = DisposeBag()
     
@@ -38,6 +39,15 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
         checkPhotoLibraryAuth()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.topItem?.title = ""
+        self.navigationController?.navigationBar.tintColor = .black
+        
+        self.title = "추억 만들기"
+    }
+    
     private func initImagePicker() {
         self.imagePicker.sourceType = .photoLibrary // 앨범에서 가져옴
         self.imagePicker.allowsEditing = false // 수정 가능 여부
@@ -49,7 +59,7 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
         if status != .authorized {
             PHPhotoLibrary.requestAuthorization { (status) in
                 if status != .authorized {
-                    print("authorisation not granted!")
+                    os_log("PhotoLibrary: Authorization not granted.", type: .info)
                 }
             }
         }
@@ -75,12 +85,12 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBAction func complete(_ sender: Any) {
         
-        guard let image = imageView.image?.downSample(scale: 0.3) else {return}
+        guard let image = imageView.image?.downSample(scale: 0.2) else {return}
         guard let title = titleTextField.text else {return}
         guard let contents = textView.text else {return}
         
         let item = DiaryListManager.shared.createItem(image: image, title: title, contents: contents, metadata: imageMetadata)
-        viewModel.add(item)
+        viewModel.add(item: item)
         
         self.navigationController?.popViewController(animated: true)
     }
@@ -93,7 +103,7 @@ extension CreateViewController: UIImagePickerControllerDelegate, URLSessionDeleg
         var newImage: UIImage? = nil // update 할 이미지
         
         if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            newImage = possibleImage.downSample(scale: 0.3) // 원본 이미지가 있을 경우
+            newImage = possibleImage.downSample(scale: 0.2) // 원본 이미지가 있을 경우
         }
         
         DispatchQueue.main.async {
@@ -145,14 +155,4 @@ extension CreateViewController: UITextViewDelegate {
            textView.textColor = UIColor.lightGray
         }
     }
-}
-
-class CreateViewModel {
-    
-    private let manager = DiaryListManager.shared
-    
-    func add(_ item: DiaryItem) {
-        manager.add(item)
-    }
-    
 }

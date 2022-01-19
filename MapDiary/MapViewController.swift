@@ -15,7 +15,7 @@ class MapViewController: UIViewController {
     
     var markerTouchHandler: NMFOverlayTouchHandler = { (overlay) -> Bool in return false}
     
-    let viewModel = MapViewModel()
+    let viewModel = DiaryListViewModel()
     
     var mapItems: [NMFMarker] = []
     var disposeBag = DisposeBag()
@@ -45,8 +45,14 @@ class MapViewController: UIViewController {
         buildItems()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.title = "지도"
+    }
+    
     private func buildItems() {
-        let diaryItems = viewModel.diaryItems
+        let diaryItems = viewModel.sortedItems
         
         for item in diaryItems {
             addMapItem(item: item)
@@ -99,26 +105,4 @@ class MapViewController: UIViewController {
         }
     }
     
-}
-
-class MapViewModel {
-    
-    private let manager = DiaryListManager.shared
-    
-    var diaryItems: [DiaryItem] {
-        return manager.diaryItems
-    }
-    
-    var sortedList: [DiaryItem] {
-        let sortedList = manager.diaryItems.sorted { prev, next  in
-            return prev.date > next.date
-        }
-        
-        return sortedList
-    }
-   
-    func diaryItem(at index: Int) -> DiaryItem {
-        return sortedList[index]
-    }
-   
 }

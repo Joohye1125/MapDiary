@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import RxSwift
+import os
 
 class DiaryListManager {
     
@@ -40,8 +41,13 @@ class DiaryListManager {
     
     func add(_ item: DiaryItem) {
         diaryItems.append(item)
-        print("Added Item Id: \(item.id)")
-        print("Remaining count after add: \(diaryItems.count)")
+        
+        var log = "Add Item. Id: \(item.id)"
+        os_log("%@", type: .default, log)
+        
+        log = "Item count: \(self.diaryItems.count)"
+        os_log("%@", type: .debug, log)
+        
         save(item: item)
         
         diaryItemAddSubject.onNext(item)
@@ -53,8 +59,12 @@ class DiaryListManager {
             diaryItems.remove(at: index)
         }
         
-        print("Deleted Item Id: \(item.id)")
-        print("Remaining count after deleting: \(diaryItems.count)")
+        var log = "Delete Item. Id: \(item.id)"
+        os_log("%@", type: .default, log)
+        
+        log = "Item count: \(self.diaryItems.count)"
+        os_log("%@", type: .debug, log)
+        
         dbManager.delete(id: item.id)
         
         diaryItemRemoveSubject.onNext(item)
@@ -64,7 +74,12 @@ class DiaryListManager {
         guard let index = diaryItems.firstIndex(of: item) else { return }
         diaryItems[index].update(title: item.title, contents: item.contents, image: item.image, metadata: item.imgMetadata)
         
-        print("Updated Item Id: \(item.id)")
+        var log = "Updage Item. Id: \(item.id)"
+        os_log("%@", type: .default, log)
+        
+        log = "Item count: \(self.diaryItems.count)"
+        os_log("%@", type: .debug, log)
+        
         dbManager.update(item: item)
         
         diaryItemUpdateSubject.onNext(item)
@@ -77,9 +92,13 @@ class DiaryListManager {
         let nextId = lastId + 1
         lastId = nextId
         
-        print("Created Item Id: \(lastId)")
+        var log = "Create Item. Id: \(nextId)"
+        os_log("%@", type: .default, log)
+        
+        log = "Item count: \(self.diaryItems.count)"
+        os_log("%@", type: .debug, log)
+      
         return DiaryItem(id: nextId, title: title, date: Date.now, contents: contents, image: image, imgMetadata: metadata)
     }
    
-    
 }

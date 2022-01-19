@@ -16,9 +16,5 @@ extension Date {
             dateFormatter.locale = Locale.current
             return dateFormatter.string(from: self)
         }
-        
-    func toStringKST(dateFormat format: String ) -> String {
-        return self.toString(dateFormat: format)
-    }
-    
+     
 }
