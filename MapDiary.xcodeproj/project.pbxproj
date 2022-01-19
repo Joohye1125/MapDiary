@@ -11,6 +11,7 @@
 		FA22684C2765E3BB00E8C5DC /* DetailItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA22684B2765E3BB00E8C5DC /* DetailItemViewController.swift */; };
 		FA22684E276623FA00E8C5DC /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA22684D276623FA00E8C5DC /* CreateViewController.swift */; };
 		FA6D070E277209E600D16336 /* DetailItemUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D070D277209E600D16336 /* DetailItemUpdateViewController.swift */; };
+		FA741348278EF5A8000EB20F /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA741347278EF5A8000EB20F /* UITableViewExtension.swift */; };
 		FA7649D027798ABA001D0C00 /* DbManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7649CF27798ABA001D0C00 /* DbManager.swift */; };
 		FA84521527610FF100D90748 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84521427610FF100D90748 /* AppDelegate.swift */; };
 		FA84521727610FF100D90748 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84521627610FF100D90748 /* SceneDelegate.swift */; };
@@ -34,6 +35,7 @@
 		FA22684B2765E3BB00E8C5DC /* DetailItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemViewController.swift; sourceTree = "<group>"; };
 		FA22684D276623FA00E8C5DC /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		FA6D070D277209E600D16336 /* DetailItemUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemUpdateViewController.swift; sourceTree = "<group>"; };
+		FA741347278EF5A8000EB20F /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		FA7649CF27798ABA001D0C00 /* DbManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbManager.swift; sourceTree = "<group>"; };
 		FA84521127610FF100D90748 /* MapDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA84521427610FF100D90748 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			children = (
 				FAEEFE98276F60AB008D9FF2 /* DateExtension.swift */,
 				FAEEFE87276B6E88008D9FF2 /* UIImageExtension.swift */,
+				FA741347278EF5A8000EB20F /* UITableViewExtension.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				FAEEFE8C276B7BFA008D9FF2 /* DiaryItemCell.swift in Sources */,
 				FA6D070E277209E600D16336 /* DetailItemUpdateViewController.swift in Sources */,
 				FA84521527610FF100D90748 /* AppDelegate.swift in Sources */,
+				FA741348278EF5A8000EB20F /* UITableViewExtension.swift in Sources */,
 				FA84521727610FF100D90748 /* SceneDelegate.swift in Sources */,
 				FAEEFE99276F60AB008D9FF2 /* DateExtension.swift in Sources */,
 				FAEEFE8E276B82D7008D9FF2 /* DiaryListViewController.swift in Sources */,
