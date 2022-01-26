@@ -31,8 +31,10 @@ class DetailItemUpdateViewController: UIViewController, UINavigationControllerDe
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.topItem?.title = ""
-        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 30.0/255.0, green: 50.0/255.0, blue: 62.0/255.0, alpha: 1.0)
+        
         self.title = "수정하기"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor(red: 30.0/255.0, green: 50.0/255.0, blue: 62.0/255.0, alpha: 1.0)]
         
         guard let item = diaryItem else {return}
         

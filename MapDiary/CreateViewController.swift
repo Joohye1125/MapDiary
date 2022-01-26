@@ -43,9 +43,10 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.topItem?.title = ""
-        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 30.0/255.0, green: 50.0/255.0, blue: 62.0/255.0, alpha: 1.0)
         
         self.title = "추억 만들기"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor(red: 30.0/255.0, green: 50.0/255.0, blue: 62.0/255.0, alpha: 1.0)]
     }
     
     private func initImagePicker() {
@@ -57,7 +58,7 @@ class CreateViewController: UIViewController, UINavigationControllerDelegate {
     private func checkPhotoLibraryAuth() {
         let status = PHPhotoLibrary.authorizationStatus()
         if status != .authorized {
-            PHPhotoLibrary.requestAuthorization { (status) in
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { (status) in
                 if status != .authorized {
                     os_log("PhotoLibrary: Authorization not granted.", type: .info)
                 }

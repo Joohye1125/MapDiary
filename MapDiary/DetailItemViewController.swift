@@ -21,7 +21,8 @@ class DetailItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 30.0/255.0, green: 50.0/255.0, blue: 62.0/255.0, alpha: 1.0)
+
         self.navigationController?.navigationBar.topItem?.title = ""
         
     }

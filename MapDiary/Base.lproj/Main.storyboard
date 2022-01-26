@@ -33,7 +33,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="지도" id="As9-dY-dra">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="zBK-gj-3A3">
-                            <color key="tintColor" systemColor="labelColor"/>
+                            <color key="tintColor" red="0.1176470588" green="0.1960784314" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <segue destination="72C-si-5Og" kind="show" id="a0H-7w-wPH"/>
                             </connections>
@@ -125,7 +125,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="일기" id="rZt-h3-hg8">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="nez-rT-dAc">
-                            <color key="tintColor" systemColor="labelColor"/>
+                            <color key="tintColor" red="0.11764705882352941" green="0.19607843137254902" blue="0.24313725490196078" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <segue destination="72C-si-5Og" kind="show" id="CT3-cU-APt"/>
                             </connections>
@@ -153,7 +153,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qtO-yJ-y51">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Test" translatesAutoresizingMaskIntoConstraints="NO" id="HcM-il-ijv" userLabel="Image">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MainIcon" translatesAutoresizingMaskIntoConstraints="NO" id="HcM-il-ijv" userLabel="Image">
                                                 <rect key="frame" x="10" y="10" width="394" height="350"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="350" id="mmt-Dv-M0t"/>
@@ -257,7 +257,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" systemColor="systemIndigoColor"/>
+                        <color key="selectedImageTintColor" red="0.11764705882352941" green="0.19607843137254902" blue="0.24313725490196078" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </tabBar>
                     <connections>
                         <segue destination="gyX-n4-onG" kind="relationship" relationship="viewControllers" id="APb-RS-HuV"/>
@@ -342,6 +342,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="X6h-ff-3wU">
                         <barButtonItem key="rightBarButtonItem" title="완료" id="2hX-NX-xxu">
+                            <color key="tintColor" red="0.1176470588" green="0.1960784314" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="complete:" destination="72C-si-5Og" id="M15-AL-YWn"/>
                             </connections>
@@ -481,6 +482,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="hgd-cd-Jdr">
                         <barButtonItem key="rightBarButtonItem" title="완료" id="S8x-Kw-SgP">
+                            <color key="tintColor" red="0.1176470588" green="0.1960784314" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="complete:" destination="l0f-qH-oXr" id="Cil-Y1-gal"/>
                             </connections>
@@ -498,11 +500,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="CT3-cU-APt"/>
+        <segue reference="a0H-7w-wPH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Camera" width="256" height="256"/>
-        <image name="Test" width="400" height="400"/>
+        <image name="MainIcon" width="250" height="250"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="plus" catalog="system" width="128" height="113"/>
@@ -517,9 +519,6 @@
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
